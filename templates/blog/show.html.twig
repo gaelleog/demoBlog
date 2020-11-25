@@ -4,22 +4,18 @@
 
 {% block body %}
 
-    <h1 class="display-4 text-center my-4">Détail de l'article</h1>
+    <h1 class="display-4 text-center my-4">{{ article.title }}</h1>
 
       <div class="col-md-12">
           <div class="card mb-4 shadow-sm">
-            <img src="https://picsum.photos/1000/400" alt="">
+            <img src="{{ article.image|replace({'200/300': '1000/300'}) }}" alt="">
             <div class="card-body">
-                <p class="card-text">finibus quis id dui. Donec efficitur euismod malesuada. Nunc pretium lectus et erat suscipit, a vulputate justo lacinia. Integer nisi dui, laoreet ac quam ac, venenatis consectetur ligula. Cras posuere, est a ornare fermentum, elit magna luctus sapien, sed posuere nulla lectus quis lectus. Phasellus ac mauris lobortis, luctus elit non, rutrum nisl. Maecenas velit nisl, bibendum at sodales non, aliquet eget velit. Quisque pellentesque facilisis turpis, vel efficitur lacus semper sed. Quisque tincidunt tristique gravida. Ut pharetra leo eu lacus lobortis varius. Integer sit amet enim pellentesque, dictum metus eu, pharetra nibh. Duis a egestas ante, id fermentum ligula. Donec non lorem purus. Nam pulvinar aliquam justo sit amet interdum. Aenean viverra enim vel lobortis venenatis.</p>
-
-                <p class="card-text">finibus quis id dui. Donec efficitur euismod malesuada. Nunc pretium lectus et erat suscipit, a vulputate justo lacinia. Integer nisi dui, laoreet ac quam ac, venenatis consectetur ligula. Cras posuere, est a ornare fermentum, elit magna luctus sapien, sed posuere nulla lectus quis lectus. Phasellus ac mauris lobortis, luctus elit non, rutrum nisl. Maecenas velit nisl, bibendum at sodales non, aliquet eget velit. Quisque pellentesque facilisis turpis, vel efficitur lacus semper sed. Quisque tincidunt tristique gravida. Ut pharetra leo eu lacus lobortis varius. Integer sit amet enim pellentesque, dictum metus eu, pharetra nibh. Duis a egestas ante, id fermentum ligula. Donec non lorem purus. Nam pulvinar aliquam justo sit amet interdum. Aenean viverra enim vel lobortis venenatis.</p>
-
-                <p class="card-text">finibus quis id dui. Donec efficitur euismod malesuada. Nunc pretium lectus et erat suscipit, a vulputate justo lacinia. Integer nisi dui, laoreet ac quam ac, venenatis consectetur ligula. Cras posuere, est a ornare fermentum, elit magna luctus sapien, sed posuere nulla lectus quis lectus. Phasellus ac mauris lobortis, luctus elit non, rutrum nisl. Maecenas velit nisl, bibendum at sodales non, aliquet eget velit. Quisque pellentesque facilisis turpis, vel efficitur lacus semper sed. Quisque tincidunt tristique gravida. Ut pharetra leo eu lacus lobortis varius. Integer sit amet enim pellentesque, dictum metus eu, pharetra nibh. Duis a egestas ante, id fermentum ligula. Donec non lorem purus. Nam pulvinar aliquam justo sit amet interdum. Aenean viverra enim vel lobortis venenatis.</p>
-
-              </div>
+                <p class="card-text">{{ article.content|raw }}</p>
             </div>
+            <small class="text-muted">Publié le {{ article.createdAt|date('d/m/Y')}} à {{ article.createdAt|date('H:i:s') }}</small>
           </div>
-        </div>
+      </div>
+
 
 
 
