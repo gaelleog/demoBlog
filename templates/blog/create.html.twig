@@ -2,47 +2,49 @@
 
 {% block body %}
 
-    <h1 class="display-4 text-center">Création d'un article</h1>
+	<h1 class="display-4 text-center">Création d'un article</h1>
 
-    {# <form method="post" class="col-md-8 mx-auto">
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" name="title">
-        </div>
-        <div class="form-group">
-            <label for="content">Content</label>
-            <textarea type="text" class="form-control" id="content" name="content" rows="7"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="image">Image</label>
-            <input type="text" class="form-control" id="image" name="image">
-        </div>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-    </form> #}
+	{# <form method="post" class="col-md-8 mx-auto">
+						        <div class="form-group">
+						            <label for="title">Title</label>
+						            <input type="text" class="form-control" id="title" name="title">
+						        </div>
+						        <div class="form-group">
+						            <label for="content">Content</label>
+						            <textarea type="text" class="form-control" id="content" name="content" rows="7"></textarea>
+						        </div>
+						        <div class="form-group">
+						            <label for="image">Image</label>
+						            <input type="text" class="form-control" id="image" name="image">
+						        </div>
+						        <button type="submit" class="btn btn-primary">Enregistrer</button>
+						    </form> #}
 
-    {{ form_start(formArticle, {'attr': {'class': 'col-md-7 mx-auto'} }) }}
+	{{ form_start(formArticle, {'attr': {'class': 'col-md-7 mx-auto'} }) }}
 
-            {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de l'article"}}) }}
+	{{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de l'article", 'title': "entre 2 et 50 caractères"}, 'label': "Titre de l'article"}) }}
 
-            {{ form_row(formArticle.content, {'attr': {'placeholder': "Contenu de l'article", "rows": 15}}) }}
+	{{ form_row(formArticle.category, {'label': "Catégorie"}) }}
 
-            {{ form_row(formArticle.image, {'attr': {'placeholder': "URL de l'image"}}) }}
+	{{ form_row(formArticle.content, {'attr': {'placeholder': "Contenu de l'article", "rows": 15}, 'label':"Contenu de l'article"}) }}
 
-            <button type="submit" class="btn btn-primary">
-            {# editMode est une variable qui est envoyée par le controller, de la fonction form() #}
-            {# Si editMode renvoie TRUE, cela veut dire que l'article possède un Id, donc c'est une modification #}
-            {% if editMode %}
+	{{ form_row(formArticle.image, {'attr': {'placeholder': "URL de l'image", 'label':"URL de l'image"}}) }}
 
-                Enregistrer les modifications
+	<button type="submit" class="btn btn-primary">
+		{# editMode est une variable qui est envoyée par le controller, de la fonction form() #}
+		{# Si editMode renvoie TRUE, cela veut dire que l'article possède un Id, donc c'est une modification #}
+			{% if editMode %}
 
-            {% else %}
-            {# Sinon, cela veut dire que l'article ne possède pas d'Id, c'est donc une insertion #}
-                Enregistrer l'article
-            
-            {% endif %}
-            </button>
+			Enregistrer les modifications
 
-    {{ form_end(formArticle) }}
+		{% else %}
+			{# Sinon, cela veut dire que l'article ne possède pas d'Id, c'est donc une insertion #}
+			Enregistrer l'article
 
-    
+		{% endif %}
+	</button>
+
+	{{ form_end(formArticle) }}
+
+
 {% endblock %}

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\ArticleType;
+use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +50,7 @@ class BlogController extends AbstractController
      * @Route("/blog/new", name="blog_create")
      * @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function form(Article $article=null, Request $request, EntityManagerInterface $manager)
+    public function form(Article $article = null, Request $request, EntityManagerInterface $manager)
     {
         // Nous avons défini 2 routes différentes, une pour l'insertion et une pour la modification
         // Lorsque l'on envoie la route '/blog/new' dans l'URL, on définit un Article $article NULL, sinon Symfony tente de récupérer un article en BDD et nous avons une erreur
@@ -64,7 +66,7 @@ class BlogController extends AbstractController
         //             ->setContent($request->request->get('content'))
         //             ->setImage($request->request->get('image'))
         //             ->setCreatedAt(new \DateTime());
-            
+
         //     $manager->persist($article);
         //     $manager->flush();
 
@@ -75,8 +77,7 @@ class BlogController extends AbstractController
 
         // On entre dans la condition IF seulement dans le cas de la création d'un nouvel article, càd pour la route '/blog/new', $article est NULL, on crée un nouvel objet Article
         // Dans le cas d'une modification, $article n'est pas NULL, il contient l'article selectionné en BDD à modifier, on n'entre pas dans la condition IF
-        if(!$article)
-        {
+        if (!$article) {
             $article = new Article;
         }
 
@@ -102,11 +103,9 @@ class BlogController extends AbstractController
         dump($request); // On observe les données saisies dans le formulaire dans la propriété 'request'
 
         // Si le formulaire a bien été soumis et que toutes les données sont valides, alors on entre dans la condition IF
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             // Si l'article n'a pas d'ID, cela veut dire que nous sommes dans le cas d'une insertion, alors on entre dans la condition IF
-            if(!$article->getId())
-            {
+            if (!$article->getId()) {
                 $article->setCreatedAt(new \DateTime()); // on rempli le setter de la date puisque nous n'avons pas de champs date dans le formulaire
             }
 
@@ -115,29 +114,54 @@ class BlogController extends AbstractController
 
             // Une fois l'insertion exécutée, on redirige vers le détail de l'article qui vient d'être inséré
             return $this->redirectToRoute('blog_show', [
-                    'id' => $article->getId() // On transmet dans la route, l'ID de l'article qui vient d'être inséré grâce au getter de l'objet Article
-                ]);
+                'id' => $article->getId() // On transmet dans la route, l'ID de l'article qui vient d'être inséré grâce au getter de l'objet Article
+            ]);
         }
 
         return $this->render('blog/create.html.twig', [
             'formArticle' => $form->createView(),
-            'editMode' => $article->getId() !==null // si l'id de l'article est différent de NULL, alors 'ediMode' renvoie TRUE et que c'est une modification
+            'editMode' => $article->getId() !== null // si l'id de l'article est différent de NULL, alors 'ediMode' renvoie TRUE et que c'est une modification
         ]);
     }
 
     /**
      * @Route("/blog/{id}", name="blog_show")
      */
-    public function show(Article $article) : Response
+    public function show(Article $article, Request $request, EntityManagerInterface $manager): Response
     {
         // $repo = $this->getDoctrine()->getRepository(Article::class);
 
         // $article = $repo->find($id);
         // dump($article);
 
+        $comment = new Comment;
+
+        dump($request);
+
+        $formComment = $this->createForm(CommentType::class, $comment);
+
+        $formComment->handleRequest($request);
+
+        if ($formComment->isSubmitted() && $formComment->isValid()) {
+            $comment->setCreatedAt(new \DateTime); // on insère une date de création du commentaire
+            $comment->setArticle($article); // on relie le commentaire à l'article (clé étrangère)
+
+            $manager->persist($comment); // on prépare l'insertion
+            $manager->flush(); // on exécute l'insertion
+
+            // Envoi d'un message de validation
+            $this->addFlash('success', "Le commentaire a été posté!");
+
+            // on redirige vers l'article après l'insertion du commentaire
+            return $this->redirectToRoute('blog_show', [
+                'id' => $article->getId()
+            ]);
+        }
+
+
         return $this->render('blog/show.html.twig', [
-            'article' => $article
+            'article' => $article, // on envoie sur le template l'article sélectionné en BDD
+            'formComment' => $formComment->createView()
         ]);
     }
 }
-
