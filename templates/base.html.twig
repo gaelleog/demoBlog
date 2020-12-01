@@ -27,24 +27,53 @@
 
 			<div class="collapse navbar-collapse" id="navbarsExample05">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="{{ path('security_registration') }}">Créez votre compte</a>
-					</li>
+
+					{# app est une variable qui contient beaucoup de variables d'environnement et notamment les informations d'un membre connecté accessible via 'app.user' #}
+					{# Si l'internaute n'est pas connecté, on lui propose de s'inscrire ou de se connecter #}
+
+						{% if not app.user %}
+
+							<li class="nav-item active"> <a class="nav-link" href="{{ path('security_login') }}">Identifiez-vous</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('security_registration') }}">Créez votre compte</a>
+						</li>
+
+					{% endif %}
 
 					<li class="nav-item active">
 						<a class="nav-link" href="{{ path('blog') }}">Blog</a>
 					</li>
-					<li class="nav-item active">
-						<a class="nav-link" href="{{ path('blog_create') }}">Ajouter un article</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catégories</a>
-						<div class="dropdown-menu" aria-labelledby="dropdown05">
-							<a class="dropdown-item" href="#">Soul</a>
-							<a class="dropdown-item" href="#">Rock</a>
-							<a class="dropdown-item" href="#">Disco</a>
-						</div>
-					</li>
+
+					{% if app.user %}
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('blog_create') }}">Ajouter un article</a>
+						</li>
+					{% endif %}
+
+					{# Si l'internaute a bien un rôle définit ROLE_ADMIN dans la BDD, alors on lui donne accès au lien du Back office #}
+					{% if is_granted("ROLE_ADMIN") %}
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">BACK OFFICE</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown05">
+								<a class="dropdown-item" href="{{ path('admin') }}">ACCUEIL BACK OFFICE</a>
+								<a class="dropdown-item" href="#">Gestion des articles</a>
+								<a class="dropdown-item" href="#">Gestion des membres</a>
+								<a class="dropdown-item" href="#">Gestion des commentaires</a>
+								<a class="dropdown-item" href="#">Gestion des catégories</a>
+							</div>
+						</li>
+
+					{% endif %}
+
+					{# Si l'internaute est connecté, on lui propose le lien de la déconnexion #}
+					{% if app.user %}
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('security_logout') }}">Déconnexion</a>
+						</li>
+					{% endif %}
+
 				</ul>
 				<form class="form-inline my-2 my-md-0">
 					<input class="form-control" type="text" placeholder="Search">
