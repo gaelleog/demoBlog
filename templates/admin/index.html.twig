@@ -5,18 +5,22 @@
 
 {% block body %}
 
-	<h1 class="display-4 text-center my-4">Identifiez-vous</h1>
+	<div class="container">
 
-	<h4 class="text-center">Bienvenue
-		<span class="text-info">{{ app.user.username }}</span>dans votre Back Office</h4>
+		<h1 class="display-4 text-center my-4">Identifiez-vous</h1>
 
-	<a href="" class="col-md-6 offset-md-3 btn btn-dark p-3 mb-2">GESTION DES ARTICLES</a>
+		<h4 class="text-center">Bienvenue
+			<span class="text-info">{{ app.user.username }}</span>dans votre Back Office</h4>
 
-	<a href="" class="col-md-6 offset-md-3 btn btn-dark p-3 mb-2">GESTION DES CATEGORIES</a>
+		<a href="{{ path('admin_articles') }}" class="col-md-6 offset-md-3 btn btn-dark p-3 mb-2">GESTION DES ARTICLES</a>
 
-	<a href="" class="col-md-6 offset-md-3 btn btn-dark p-3 mb-2">GESTION DES COMMENTAIRES</a>
+		<a href="" class="col-md-6 offset-md-3 btn btn-dark p-3 mb-2">GESTION DES CATEGORIES</a>
 
-	<a href="" class="col-md-6 offset-md-3 btn btn-dark p-3 mb-2">GESTION DES MEMBRES</a>
+		<a href="" class="col-md-6 offset-md-3 btn btn-dark p-3 mb-2">GESTION DES COMMENTAIRES</a>
+
+		<a href="" class="col-md-6 offset-md-3 btn btn-dark p-3 mb-2">GESTION DES MEMBRES</a>
+
+	</div>
 
 
 {% endblock %}

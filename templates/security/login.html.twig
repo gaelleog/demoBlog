@@ -19,7 +19,7 @@
 	{% endif %}
 
 	{# Les attributs 'name' pour un formulaire de connexion doivent impérativement être "_username" et "_password" et Symfony fait le travail tt seul #}
-	<form method="post" action="{{ path('security_login') }}" class="col-md-5 mx-auto">
+	<form method="post" action="{{ path('security_login') }}" class="col-md-3 mx-auto">
 		<div class="form-group">
 			<label for="_username">Email</label>
 			<input type="text" class="form-control" id="_username" name="_username" value="{{ last_username }}">
