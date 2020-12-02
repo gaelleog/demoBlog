@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACK OFFICE | Création d'un nouvel article
+{% endblock %}
+
+{% block body %}
+
+	<h1 class="display-4 text-center my-4">BACK OFFICE | Création d'un nouvel article</h1>
+
+	{{ form_start(formArticle, {'attr': {'class': 'col-md-4 mx-auto'} }) }}
+
+	{{ form_row(formArticle.title, {'label': "Titre de l'article"}) }}
+
+	{{ form_row(formArticle.category, {'label': "Catégorie"}) }}
+
+	{{ form_row(formArticle.content, {'label':"Contenu de l'article", 'attr': {"rows": 15}}) }}
+
+	{{ form_row(formArticle.image) }}
+
+	<button type="submit" class="btn btn-dark">Enregistrer l'article</button>
+
+	{{ form_end(formArticle) }}
+
+
+{% endblock %}

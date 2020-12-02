@@ -136,13 +136,24 @@ class BlogController extends AbstractController
 
         $comment = new Comment;
 
-        dump($request);
+        dump($article);
 
-        $formComment = $this->createForm(CommentType::class, $comment);
+        // $user = $this->getUser();
+        // dump($user);
+
+        $formComment = $this->createForm(CommentType::class, $comment); // importation du formulaire d'ajout de commentaire relié à l'entité $comment
 
         $formComment->handleRequest($request);
 
         if ($formComment->isSubmitted() && $formComment->isValid()) {
+
+            // getUser() : méthode permettant de récupérer les données de l'utilisateur en session
+            // On stocke le nom d'utilisateur dans la variable $username
+            $username = $this->getUser()->getUsername();
+            dump($username);
+
+            // on renseigne le setter de l'auteur
+            $comment->setAuthor($username);
             $comment->setCreatedAt(new \DateTime); // on insère une date de création du commentaire
             $comment->setArticle($article); // on relie le commentaire à l'article (clé étrangère)
 

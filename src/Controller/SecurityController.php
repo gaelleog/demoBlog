@@ -40,6 +40,7 @@ class SecurityController extends AbstractController
             $hash = $encoder->encodePassword($user, $user->getPassword());
 
             $user->setPassword($hash); // on envoie le mot de passe haché dans l'entité $user
+            $user->setRoles(["ROLE_USER"]); // on définit un ROLE_USER à chaque nouvelle inscription sur le blog
 
             $manager->persist($user);
             $manager->flush();
