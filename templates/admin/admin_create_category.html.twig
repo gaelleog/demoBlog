@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACK OFFICE | Gestion des catégories
+{% endblock %}
+
+{% block body %}
+	<h1 class="display-4 text-center my-4">
+
+		BACK OFFICE |
+
+		{% if editMode %}
+
+			Modification d'une catégorie
+
+		{% else %}
+
+			Création d'une catégorie
+
+		{% endif %}
+
+		<small>
+			<a href="{{ path('admin_category') }}" class="btn btn-dark btn-sm">Retour</a>
+		</small>
+	</h1>
+
+	{{ form_start(formCategory, {'attr': {'class': 'col-md-5 mx-auto'}}) }}
+
+	{{ form_row(formCategory.title) }}
+
+	{{ form_row(formCategory.description, {'attr': {'rows': 15}}) }}
+
+	<button type="submit" class="btn btn-dark">
+		{% if editMode %}
+
+			Modifier la catégorie
+
+		{% else %}
+
+			Enregistrer la catégorie
+
+		{% endif %}
+
+	</button>
+
+	{{ form_end(formCategory) }}
+
+{% endblock %}

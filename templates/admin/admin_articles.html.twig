@@ -48,7 +48,7 @@
 				</td>
 
 				<td>
-					<a href="" class="btn btn-danger text-white">
+					<a href="{{ path('admin_delete_article', {'id': data.id }) }}" class="btn btn-danger text-white" onclick="return(confirm('Voulez vous vraiment supprimer cet article?'))">
 						<i class="fas fa-trash fa-1x"></i>
 					</a>
 				</td>

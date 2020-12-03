@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACK OFFICE | Gestion des catégories
+
+{% endblock %}
+
+{% block body %}
+
+	<h1 class="display-4 text-center my-4">BACK OFFICE | Gestion des catégories<small>
+			<a href="{{ path('admin_new_category') }}" class="btn btn-dark btn-sm">Nouvelle catégorie</a>
+		</small>
+	</h1>
+
+	{% for label, messages in app.flashes(['danger', 'success']) %}
+
+		{% for message in messages %}
+
+			<div class="bg-{{ label }} text-white text-center col-md-3 mx-auto rounded p-3">
+				{{ message }}
+			</div>
+
+		{% endfor %}
+	{% endfor %}
+
+
+	<table class="table table-bordered text-center">
+		<tr>
+			{% for data in colonnes %}
+				<th>{{data|upper}}</th>
+			{% endfor %}
+			<th>NB ARTICLES</th>
+			<th>EDIT</th>
+			<th>SUPPR</th>
+		</tr>
+
+		{% for data in categories %}
+			<tr>
+				<td class="align-middle">{{ data.id }}</td>
+				<td class="align-middle">{{ data.title }}</td>
+				<td class="align-middle">{{ data.description|striptags }}</td>
+				{# data.articles|length : permet d'afficher le nombre d'articles #}
+				<td class="align-middle">{{ data.articles|length }}</td>
+
+				<td>
+					<a href="{{ path('admin_edit_category', {'id': data.id }) }}" class="btn btn-dark text-white">
+						<i class="fas fa-edit fa-1x"></i>
+					</a>
+				</td>
+
+				<td>
+					<a href="{{ path('admin_delete_category', {'id': data.id }) }}" class="btn btn-danger text-white" onclick="return(confirm('Voulez vous vraiment supprimer cet article?'))">
+						<i class="fas fa-trash fa-1x"></i>
+					</a>
+				</td>
+			</tr>
+
+		{% endfor %}
+
+	</table>
+
+
+{% endblock %}
