@@ -1,0 +1,64 @@
+{% extends "base.html.twig" %}
+
+{% block title %}BACK OFFICE | Gestion des commentaires
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		<h1 class="display-4 text-center my-4">BACK OFFICE | Gestion des commentaires<small>
+				<a href="{{ path('admin_new_article') }}" class="btn btn-dark btn-sm">Nouveau commentaire</a>
+			</small>
+		</h1>
+
+		{% for messages in app.flashes('success') %}
+
+			<div class="bg-success text-white text-center col-md-3 mx-auto rounded p-3">
+				{{ messages }}
+			</div>
+
+		{% endfor %}
+
+		<table class="table table-bordered text-center">
+			<tr>
+				{% for data in colonnes %}
+					{% if data == 'createdAt' %}
+						<th>DATE</th>
+					{% else %}
+						<th>{{data|upper}}</th>
+					{% endif %}
+				{% endfor %}
+				<th>TITRE ARTICLE</th>
+				<th>EDIT</th>
+				<th>SUPPR</th>
+			</tr>
+
+			{% for data in comments %}
+				<tr>
+					<td class="align-middle">{{ data.id }}</td>
+					<td class="align-middle">{{ data.author }}</td>
+					<td class="align-middle">{{ data.content|striptags }}</td>
+					<td class="align-middle">{{ data.createdAt|date('d/m/Y à H:i:s') }}</td>
+					<td class="align-middle">{{ data.article.title }}</td>
+
+					<td>
+						<a href="{{ path('admin_edit_comment', {'id': data.id}) }}" class="btn btn-dark text-white">
+							<i class="fas fa-edit fa-1x"></i>
+						</a>
+					</td>
+
+					<td>
+						<a href="{{ path('admin_delete_comment', {'id': data.id}) }}" class="btn btn-danger text-white">
+							<i class="fas fa-trash fa-1x"></i>
+						</a>
+					</td>
+
+				</tr>
+
+			{% endfor %}
+		</table>
+
+	</div>
+
+{% endblock %}
