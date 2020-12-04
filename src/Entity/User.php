@@ -53,7 +53,8 @@ class User implements UserInterface
      * )
      * @Assert\EqualTo(
      *      propertyPath="confirm_password",
-     *      message="Les mots de passe ne correspondent pas"
+     *      message="Les mots de passe ne correspondent pas",
+     *      groups={"registration"}
      * )
      */
     private $password;
@@ -61,7 +62,8 @@ class User implements UserInterface
     /**
      * @Assert\EqualTo(
      *      propertyPath="password",
-     *      message="Les mots de passe ne correspondent pas"
+     *      message="Les mots de passe ne correspondent pas",
+     *      groups={"registration"}
      * )
      */
     public $confirm_password;
